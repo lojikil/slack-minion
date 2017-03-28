@@ -1,6 +1,5 @@
 from slackbot.bot import Bot, listen_to, respond_to, default_reply
 import re
-import json
 import logging
 
 
@@ -35,6 +34,8 @@ def timbothy(message):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(filename='slack.log', level=logging.INFO, format=LOG_FORMAT)
+    logging.basicConfig(filename='slack.log',
+                        level=logging.INFO,
+                        format=LOG_FORMAT)
     bot = Bot()
     bot.run()
