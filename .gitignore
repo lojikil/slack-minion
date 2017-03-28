@@ -1,3 +1,4 @@
 *.swp
 slackbot_settings.py
 *.pyc
+*.log
