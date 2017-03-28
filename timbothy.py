@@ -10,7 +10,8 @@ commonwords = {
     'the': ['teh', 'thr', 'thw'],
     'this': ['thsi', 'ths', 'tis'],
     'your': ['yor', 'you'],
-    "you're": "your",
+    'annual': 'anal',
+    "you're": ["your", "youre"],
     "then": "than",
     "i'm": "im",
 }
