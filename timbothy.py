@@ -1,4 +1,4 @@
-from slackbot import Bot, listen_to, respond_to
+from slackbot.bot import Bot, listen_to, respond_to, default_reply
 import re
 import json
 
