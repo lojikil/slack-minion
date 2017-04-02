@@ -24,6 +24,12 @@ def slack_to_tweet(message, description=None, url=None):
     message.react('+1')
 
 
+@respond_to('^#slack2tweet$')
+@listen_to('^#slack2tweet$')
+def missingtweetargs(message):
+    message.reply("ya dun goofed and forgot ta add the arguments: #slack2tweet [description] [url]")
+
+
 @respond_to('tweet (.*) (.*)', re.IGNORECASE)
 def tweet(message, description=None, url=None):
     logging.info("Received direct tweet: {0} {1}".format(description, url))
@@ -48,6 +54,7 @@ def text2tim(message, text):
     words = text.lower().split(u' ')
 
     results = []
+    crumb = None
     print words
     for word in words:
         if word in commonwords:
@@ -55,21 +62,40 @@ def text2tim(message, text):
                 result = random.choice(commonwords[word])
             else:
                 result = commonwords[word]
-
-            r = random.randint(0,100)
-
-            if r <= 50:
-                result = result.replace(u'is', u'si')
-                result = result.replace(u'ne', u'n')
-                result = result.replace(u'ss', u's')
-                result = result.replace(u'ed', u'd')
-                result = result.replace(u"'t", u"t")
-            elif r > 50 and r <= 75:
-                result = result.replace(u'ea', 'ae')
-
-            results.append(result)
         else:
-            results.append(word)
+             result = word
+
+        r = random.randint(0, 100)
+
+        if r <= 10:
+            tmp = random.randint(0, len(result) - 1)
+            if tmp == len(result) - 1:
+                swapidx = tmp - 1
+            else:
+                swapidx = tmp + 1
+            ws = list(result)
+            print "result == {2}, swapidx == {0}, tmp == {1}".format(swapidx, tmp, result)
+            t = ws[tmp]
+            ws[tmp] = ws[swapidx]
+            ws[swapidx] = t
+            result = ''.join(ws)
+        elif r <= 50:
+            result = result.replace(u'is', u'si')
+            result = result.replace(u'ne', u'n')
+            result = result.replace(u'ss', u's')
+            result = result.replace(u'ed', u'd')
+            result = result.replace(u"'t", u"t")
+        elif r > 50 and r <= 75:
+            result = result.replace(u'ea', 'ae')
+        elif r > 75:
+            crumb = result[-1]
+            result = result[0:-1]
+
+        if crumb is not None:
+            result = crumb + result
+            crumb = None
+
+        results.append(result)
 
     message.reply(u' '.join(results))
 
