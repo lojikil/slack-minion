@@ -55,7 +55,6 @@ def text2tim(message, text):
 
     results = []
     crumb = None
-    print words
     for word in words:
         if word in commonwords:
             if type(commonwords[word]) is list:
@@ -74,7 +73,6 @@ def text2tim(message, text):
             else:
                 swapidx = tmp + 1
             ws = list(result)
-            print "result == {2}, swapidx == {0}, tmp == {1}".format(swapidx, tmp, result)
             t = ws[tmp]
             ws[tmp] = ws[swapidx]
             ws[swapidx] = t
@@ -102,7 +100,7 @@ def text2tim(message, text):
 
 @default_reply
 def timbothy(message):
-    message.reply('<INSERT RANDOM TIMMERISH HERE>')
+    text2tim(message, message.body[u'text'])
 
 
 if __name__ == '__main__':
