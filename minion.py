@@ -18,19 +18,21 @@ def slack_to_tweet(message, description=None, url=None):
 @respond_to('^#slack2tweet$')
 @listen_to('^#slack2tweet$')
 def missingtweetargs(message):
-    message.reply("ya dun goofed and forgot ta add the arguments: #slack2tweet [description] [url]")
+    message.reply("the format is: #slack2tweet [description] [url]")
 
 
 @respond_to('tweet (.*) (.*)', re.IGNORECASE)
 def tweet(message, description=None, url=None):
     logging.info("Received direct tweet: {0} {1}".format(description, url))
-    message.reply("... you're not my dad")
+    message.reply("thank you and noted")
     message.react('+1')
 
 
 @default_reply
 def default(message):
     message.reply("I currently understand slack2tweet & tweet.")
+    message.send("#slack2tweet [description] [url]")
+    message.send("(as a direct message): tweet [description] [url]")
 
 
 if __name__ == '__main__':
