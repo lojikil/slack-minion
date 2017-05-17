@@ -28,6 +28,23 @@ def tweet(message, description=None, url=None):
     message.react('+1')
 
 
+@respond_to('burninator$', re.IGNORECASE)
+@respond_to('trogdor$', re.IGNORECASE)
+@respond_to('burninator (.*)', re.IGNORECASE)
+@respond_to('trogdor (.*)', re.IGNORECASE)
+@listen_to('burninator$', re.IGNORECASE)
+@listen_to('trogdor$', re.IGNORECASE)
+@listen_to('burninator (.*)', re.IGNORECASE)
+@listen_to('trogdor (.*)', re.IGNORECASE)
+def trogdor(message, burning_the=None):
+    message.react('trogdor')
+    message.react('fire')
+    if burning_the:
+        message.reply('TROGDOR, BURNINATING THE {0} :trogdor:'.format(burning_the))
+    else:
+        message.reply('TROGDOR, BURNINATING ALL THE CLIENTS. :trogdor:')
+
+
 @default_reply
 def default(message):
     message.reply("I currently understand slack2tweet & tweet.")
