@@ -6,6 +6,7 @@ import random
 
 LOG_FORMAT = '%(asctime)-15s %(message)s'
 logger = None
+announce = "Received direct tweet (@sae @brian @otherdavid @ken @tgiordonell0): {0} {1}"
 
 
 @listen_to('#slack2tweet (.*) (.*)', re.IGNORECASE)
@@ -13,6 +14,8 @@ def slack_to_tweet(message, description=None, url=None):
     logging.info('received #slack2tweet: "{0}" {1}'.format(description, url))
     message.reply('... noted')
     message.react('+1')
+    message._client.send_message('social-media-room',
+                                 announce.format(description, url))
 
 
 @respond_to('^#slack2tweet$')
@@ -26,6 +29,8 @@ def tweet(message, description=None, url=None):
     logging.info("Received direct tweet: {0} {1}".format(description, url))
     message.reply("thank you and noted")
     message.react('+1')
+    message._client.send_message('social-media-room',
+                                 announce.format(description, url))
 
 
 @respond_to('burninator$', re.IGNORECASE)
